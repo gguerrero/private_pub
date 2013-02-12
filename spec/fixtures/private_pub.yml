@@ -1,8 +1,10 @@
 development:
   server: http://dev.local:9292/faye
+  external_server: http://dev.external:9292/faye
   secret_token: DEVELOPMENT_SECRET_TOKEN
   signature_expiration: 600
 production:
-  server: http://example.com/faye
+  server: http://prd.local:9292/faye
+  external_server: http://example.com/faye
   secret_token: PRODUCTION_SECRET_TOKEN
   signature_expiration: 600

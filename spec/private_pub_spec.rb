@@ -9,6 +9,10 @@ describe PrivatePub do
     PrivatePub.config[:server].should be_nil
   end
 
+  it "defaults external_server to nil" do
+    PrivatePub.config[:external_server].should be_nil
+  end
+
   it "defaults signature_expiration to nil" do
     PrivatePub.config[:signature_expiration].should be_nil
   end
@@ -21,7 +25,8 @@ describe PrivatePub do
 
   it "loads a simple configuration file via load_config" do
     PrivatePub.load_config("spec/fixtures/private_pub.yml", "production")
-    PrivatePub.config[:server].should eq("http://example.com/faye")
+    PrivatePub.config[:server].should eq("http://prd.local:9292/faye")
+    PrivatePub.config[:external_server].should eq("http://example.com/faye")
     PrivatePub.config[:secret_token].should eq("PRODUCTION_SECRET_TOKEN")
     PrivatePub.config[:signature_expiration].should eq(600)
   end
@@ -32,7 +37,7 @@ describe PrivatePub do
     }.should raise_error ArgumentError
   end
 
-  it "includes channel, server, and custom time in subscription" do
+  it "includes channel, server and custom time in subscription" do
     PrivatePub.config[:server] = "server"
     subscription = PrivatePub.subscription(:timestamp => 123, :channel => "hello")
     subscription[:timestamp].should eq(123)
